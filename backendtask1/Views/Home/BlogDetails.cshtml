@@ -1,0 +1,251 @@
+﻿@model BlogsVM
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('assets/img/breadcrumbs-bg.jpg');">
+        <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+
+            <h2>Blog Details</h2>
+            <ol>
+                <li><a asp-controller="home" asp-action="index">Home</a></li>
+                <li>Blog Details</li>
+            </ol>
+
+        </div>
+    </div><!-- End Breadcrumbs -->
+    <!-- ======= Blog Details Section ======= -->
+    <section id="blog" class="blog">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row g-5">
+
+                <div class="col-lg-8">
+
+                    <article class="blog-details">
+
+                        <div class="post-img">
+                            <img src="@Model.Blog.Thumbnail" alt="@Model.Blog.Title" class="img-fluid">
+                        </div>
+
+                        <h2 class="title">@Model.Blog.Title</h2>
+
+                        <div class="meta-top">
+                            <ul>
+                                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">@Model.Blog.Author</a></li>
+                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time datetime="@Model.Blog.ReleaseDate">@Model.Blog.ReleaseDate</time></a></li>
+                                <li class="d-flex align-items-center">
+                                    <i class="bi bi-chat-dots"></i>
+
+                                    @{
+                                        if (Model.Blog.Comments.Count == 0)
+                                        {
+                                            <a href="blog-details.html">
+                                                No comments
+                                            </a>
+                                        }
+                                        else if (Model.Blog.Comments.Count == 1)
+                                        {
+                                            <a href="blog-details.html">
+                                                @Model.Blog.Comments.Count comment
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="blog-details.html">
+                                                @Model.Blog.Comments.Count comments
+                                            </a>
+                                        }
+                                    }
+                                </li>
+                            </ul>
+                        </div><!-- End meta top -->
+
+                        <div class="content">
+                            <p>@Model.Blog.Description</p>
+                            <img src="@Model.Blog.DescImage"  class="img-fluid" alt="desc image" style="max-height:300px;">
+                        </div><!-- End post content -->
+
+                        <div class="meta-bottom">
+                            <i class="bi bi-folder"></i>
+                            <ul class="cats">
+                                <li><a href="#">Business</a></li>
+                            </ul>
+
+                            <i class="bi bi-tags"></i>
+                            <ul class="tags">
+                                @foreach (Tag tag in Model.Blog.Tags)
+                                {
+                                    <li><a href="#">@tag.TagName</a></li>
+                                }
+
+                            </ul>
+                        </div><!-- End meta bottom -->
+
+                    </article><!-- End blog post -->
+
+                    <div class="post-author d-flex align-items-center">
+                        <img src="~/assets/img/blog/blog-author.jpg" class="rounded-circle flex-shrink-0" alt="">
+                        <div>
+                            <h4>@Model.Blog.Author</h4>
+                            <div class="social-links">
+                                <a href="https://twitters.com/#"><i class="bi bi-twitter"></i></a>
+                                <a href="https://facebook.com/#"><i class="bi bi-facebook"></i></a>
+                                <a href="https://instagram.com/#"><i class="biu bi-instagram"></i></a>
+                            </div>
+                            <p>
+                                Itaque quidem optio quia voluptatibus dolorem dolor. Modi eum sed possimus accusantium. Quas repellat voluptatem officia numquam sint aspernatur voluptas. Esse et accusantium ut unde voluptas.
+                            </p>
+                        </div>
+                    </div><!-- End post author -->
+
+                    <div class="comments">
+                        @{
+                            if (Model.Blog.Comments.Count == 0)
+                            {
+                                                <h4 class="comments-count">No comments</h4>
+                            }
+                            else if (Model.Blog.Comments.Count == 1)
+                            {
+                    <h4 class="comments-count">@Model.Blog.Comments.Count comment</h4>
+                            }
+                            else
+                            {
+                                <h4 class="comments-count">@Model.Blog.Comments.Count comments</h4>
+                              
+                            }
+                        }
+
+
+                        @foreach (Comment comment in Model.Blog.Comments)
+                        {
+                            <div id="comment-1" class="comment">
+                                <div class="d-flex">
+                                    <div class="comment-img"><img src="@comment.Image" alt="@comment.Username"></div>
+                                    <div>
+                                        <h5><a href="">@comment.Username</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
+                                        <time datetime="@comment.Date">@comment.Date</time>
+                                        <p>
+                                            @comment.Message
+                                        </p>
+                                    </div>
+                                </div>
+                            </div><!-- End comment #1 -->
+                        }
+
+
+
+                        <div class="reply-form">
+
+                            <h4>Leave a Reply</h4>
+                            <p>Your email address will not be published. Required fields are marked * </p>
+                            <form action="">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <input name="name" type="text" class="form-control" placeholder="Your Name*">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input name="email" type="text" class="form-control" placeholder="Your Email*">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col form-group">
+                                        <input name="website" type="text" class="form-control" placeholder="Your Website">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col form-group">
+                                        <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Post Comment</button>
+
+                            </form>
+
+                        </div>
+
+                    </div><!-- End blog comments -->
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="sidebar">
+
+                        <div class="sidebar-item search-form">
+                            <h3 class="sidebar-title">Search</h3>
+                            <form action="" class="mt-3">
+                                <input type="text">
+                                <button type="submit"><i class="bi bi-search"></i></button>
+                            </form>
+                        </div><!-- End sidebar search formn-->
+
+                        <div class="sidebar-item categories">
+                            <h3 class="sidebar-title">Categories</h3>
+                            <ul class="mt-3">
+                                <li><a href="#">General <span>(25)</span></a></li>
+                                <li><a href="#">Lifestyle <span>(12)</span></a></li>
+                                <li><a href="#">Travel <span>(5)</span></a></li>
+                                <li><a href="#">Design <span>(22)</span></a></li>
+                                <li><a href="#">Creative <span>(8)</span></a></li>
+                                <li><a href="#">Educaion <span>(14)</span></a></li>
+                            </ul>
+                        </div><!-- End sidebar categories-->
+
+                        <div class="sidebar-item recent-posts">
+                            <h3 class="sidebar-title">Recent Posts</h3>
+
+                            <div class="mt-3">
+                                @{ int currentBlogId = Model.Blog.Id;}
+                                @foreach (Blog blogs in Model.Blogs)
+                                {
+                                    @if (blogs.Id != currentBlogId)
+                                    {<div class="post-item">
+                                            <img style="max-height:55px;" src="@blogs.Thumbnail" alt="@blogs.Title">
+                                            <div>
+                                                <h4>
+                                                    <a asp-controller="home" asp-action="blogdetails" asp-route-id="@blogs.Id">
+                                                        @(blogs.Title.Length >= 40 ? @blogs.Title.Substring(0, 40) : blogs.Title)
+                                                      
+                                                    </a>
+                                                </h4>
+                                                <time datetime="@blogs.ReleaseDate">@blogs.ReleaseDate</time>
+                                            </div>
+                                        </div><!-- End recent post item-->
+                                    }
+                                    else
+                                    {
+                                        
+                                    }
+
+
+                                }
+
+                            </div>
+
+                        </div><!-- End sidebar recent posts-->
+
+                        <div class="sidebar-item tags">
+                            <h3 class="sidebar-title">Tags</h3>
+                            <ul class="mt-3">
+                                @foreach (Blog blog in Model.Blogs)
+                                {
+                                    @foreach (Tag tags in blog.Tags)
+                                    {
+                                        <li><a href="#">@tags.TagName</a></li>
+
+                                    }
+                                }
+
+                            </ul>
+                        </div><!-- End sidebar tags-->
+
+                    </div><!-- End Blog Sidebar -->
+
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Blog Details Section -->
+
+</main><!-- End #main -->
